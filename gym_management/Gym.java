@@ -98,7 +98,7 @@ public class Gym {
         for (Session session : sessions) {
             infoBuilder.append(getSessionData(session)).append("\n");
         }
-        return infoBuilder.toString();
+        return infoBuilder.delete(infoBuilder.length()-1,infoBuilder.length()).toString();
     }
 
     public static String getSessionData(Session session) {
