@@ -1,23 +1,35 @@
 package sessions;
-import people.*;
 import gym_management.*;
-import exceptions.*;
 
 public class ThaiBoxing extends Session{
     final private int price=100;
     final private int participants =20;
-
-    @Override
-    public int getPrice() {
-        return price;
-    }
+    private int availableSpots;
 
     public ThaiBoxing(String date, ForumType forumtype, Instructor instructor) {
         super(SessionType.ThaiBoxing, date, forumtype, instructor);
+        this.availableSpots = participants;
     }
 
     @Override
     public void conductSession(){
 
     }
+    @Override
+    public int getPrice() {
+        return this.price;
+    }
+    @Override
+    public int getParticipants() {
+        return this.participants;
+    }
+    @Override
+    public int getAvailableSpots() {
+        return this.availableSpots;
+    }
+    @Override
+    public void decreaseAvailableSpots() {
+        this.availableSpots--;
+    }
+
 }

@@ -9,8 +9,6 @@ import utilities.*;
 public abstract class Session {
     private ForumType forumType;
     final String date;
-    private int participants;
-    private int availableSpots;
     private int price;
     private ArrayList<Client> clients;
     private SessionType sessionType;
@@ -53,33 +51,29 @@ public abstract class Session {
             Gym.getInstance().getSecretary().addAction("Failed registration: Client doesn't meet the age requirements for this session (Seniors)");
             ableToRegister = false;
         }
-        if (c.getBalance()<this.price){
+        if (c.getBalance()<this.getPrice()){
             Gym.getInstance().getSecretary().addAction("Failed registration: Client doesn't have enough balance");
             ableToRegister = false;
         }
-        if (availableSpots<=0){
+        if (this.getAvailableSpots()<=0){
             Gym.getInstance().getSecretary().addAction("Failed registration: No available spots for session");
             ableToRegister = false;
         }
         if (ableToRegister){
             clients.add(c);
-            availableSpots--;
+            this.decreaseAvailableSpots();
             c.setClientBalance(c.getClientBalance()-this.getPrice());
             Gym.getInstance().addToGymBalance(this.getPrice());
             String[] splitDate = this.getSplitDate();
             Gym.getInstance().getSecretary().addAction(String.format("Registered client: %s to session: %s on %s-%s-%sT%s for price: %s", c.getName(), this.getSessionType(), splitDate[2], splitDate[1], splitDate[0], splitDate[3], this.getPrice()));
         }
     }
+
+
     public SessionType getSessionType(){return sessionType;}
     public int getPrice(){return price;}
-    public int getAvailableSpots(){
-        return availableSpots;
-    }
     public int getTakenSpots(){
         return clients.size();
-    }
-    public int getParticipants(){
-        return participants;
     }
     public ArrayList<Client> getRegisteredClients(){
         return clients;
@@ -103,4 +97,10 @@ public abstract class Session {
         Time currentTime = new Time();
         return currentTime.isAfter(sessionTime);
     }
+
+    public abstract int getParticipants();
+
+    public abstract int getAvailableSpots();
+
+    public abstract void decreaseAvailableSpots();
 }
