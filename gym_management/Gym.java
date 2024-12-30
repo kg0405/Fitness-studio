@@ -107,7 +107,7 @@ public class Gym {
 
     @Override
     public String toString() {
-        return String.format("Gym Name: %s\nGym Secretary: %s\nGym Balance: %d\n\nClients Data: \n%s\n\nEmployees Data: \n%s%s\n\nSessions Data:\n%s", getName(), getSecretary(), getGymBalance(), getClientsData(), getEmployeesData(), getSecretary(), getSessionsData());
+        return String.format("Gym Name: %s\nGym Secretary: %s\nGym Balance: %d\n\nClients Data:\n%s\nEmployees Data:\n%s%s\n\nSessions Data:\n%s", getName(), getSecretary(), getGymBalance(), getClientsData(), getEmployeesData(), getSecretary(), getSessionsData());
     }
 
 }
