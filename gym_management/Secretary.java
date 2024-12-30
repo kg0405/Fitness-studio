@@ -96,40 +96,27 @@ public class Secretary extends Person{
     public void notify(Session sess, String str) {
         if(!hasAccess)
             throw new NullPointerException("Error: Former secretaries are not permitted to perform actions");
-        if (sess.getRegisteredClients() != null) {
-            ArrayList<Client> clientsRegistered = new ArrayList<>(sess.getRegisteredClients());
-            for (Client client : clientsRegistered)
-                client.message(str);
-        }
+        NotificationSystem.notifySession(str,sess);
         String[] splitDate = sess.getSplitDate();
         actionHistory.add(String.format("A message was sent to everyone registered for session %s on %s-%s-%sT%s : %s", sess.getSessionType(), splitDate[2], splitDate[1], splitDate[0], splitDate[3], str));
     }
     public void notify(String date,String str){
         if(!hasAccess)
             throw new NullPointerException("Error: Former secretaries are not permitted to perform actions");
-        for (Session sess: sessions){
-            String[] day=sess.getDate().split(" ");
-            if (day[0].equals(date)){
-                ArrayList<Client> clientsRegistered = new ArrayList<>(sess.getRegisteredClients());
-                for (Client client : clientsRegistered){
-                    client.message(str);
-                }
-            }
-        }
+        NotificationSystem.notifyDate(str,date);
         String[] splitDate = getSplitDate(date);
         actionHistory.add(String.format("A message was sent to everyone registered for a session on %s-%s-%s : %s", splitDate[2], splitDate[1], splitDate[0], str));
     }
     public void notify(String str){
         if(!hasAccess)
             throw new NullPointerException("Error: Former secretaries are not permitted to perform actions");
-        for (Client client: clients)
-            client.message(str);
+        NotificationSystem.notifyGym(str);
         actionHistory.add("A message was sent to all gym clients: "+str);
     }
     public void notify(Client c, String str){
         if(!hasAccess)
             throw new NullPointerException("Error: Former secretaries are not permitted to perform actions");
-        c.message(str);
+        NotificationSystem.notifyClient(str,c);
         actionHistory.add("A message was sent to client "+c.getName()+" : "+str);
     }
     public void printActions() {
